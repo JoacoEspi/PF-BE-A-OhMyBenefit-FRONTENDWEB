@@ -1,27 +1,51 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
+<template>
+  <div class="wrapper">
 
+    <!-- Responsive navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-new">
+      <div class="container px-5">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <RouterLink to="/">
+              <a class="nav-link active" aria-current="page" href="#!">Home</a>
+            </RouterLink>
+            </li>
+            <li class="nav-item">
+              <RouterLink to="/about">
+              <a class="nav-link" href="#!">Sobre Nosotros</a>
+            </RouterLink>
+            </li>
+            <li class="nav-item">
+              <RouterLink to="/register">
+              <a class="nav-link" href="#!">Registrarse</a>
+            </RouterLink>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+     </div>
+
+<RouterView/>
+</template>
+
+
+<script setup>
 </script>
 
 
-<template>
-  
-  <header>
-    
-    <img alt="logoApp" src="@/assets/images/logoProject.png" width="250" height="230" />
-    
-    <div class="wrapper">
-      <HelloWorld msg="Welcome to OhMyBenefits" />
-      
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/login">Login</RouterLink>
-      </nav>
-    </div>
-  </header>
-<RouterView/>
-</template>
 
 <style scoped>
 header {
