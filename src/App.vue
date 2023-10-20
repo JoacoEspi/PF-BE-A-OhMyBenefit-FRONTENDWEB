@@ -32,6 +32,11 @@
               <a class="nav-link" href="#!">Registrarse</a>
             </RouterLink>
             </li>
+            <li class="nav-item">
+              <RouterLink to="/login">
+              <a class="nav-link" href="#!">Iniciar Sesion</a>
+            </RouterLink>
+            </li>
           </ul>
         </div>
       </div>
