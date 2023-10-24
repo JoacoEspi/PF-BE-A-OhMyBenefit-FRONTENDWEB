@@ -1,60 +1,67 @@
 import apiClient from "./apiClient.js";
 
 export default {
+    async createProduct(producto){
+        try {
+            await apiClient.post("/product/create", producto)
+        } catch (error) {
+            throw error.response.message
+        }
+    },
     async listByCategory(categoria){
         try {
             const response = await apiClient.get(`/product/list-all/${categoria}`)
-            //maybe this won't work, if so use result.data alone
-            return response.data.result
+            return response.data
         } catch (error) {
-            throw "Error: " + error.response.data.message
+            throw  error.response.message
         }
     },
     async listAllProducts(){
         try {
             const response = await apiClient.get("/product/list-all")
-            return response.data.result;
-        } catch (error) {
-            throw "Error: " + error.response.data.message
-        }
-    },
-    async listByName(nombre){
-        try {
-            const response = await apiClient.get(`/product/${nombre}`)
             return response.data
         } catch (error) {
-            throw "Error: " + error.response.data.message
+            throw   error.response.message
         }
     },
     async createProduct(elemento){
         try {
             await apiClient.post("/product/", elemento)
         } catch (error) {
-            throw "Error: " + error.response.data.message
+            throw error.response.message
         }
     },
-     //not implemented in backend
     async deleteProductById(idProducto){
         try {
             await apiClient.delete(`/product/${idProducto}`)
         } catch (error) {
-            throw "Error: " + error.response.data.message
+            throw   error.response.message
         }
     },
-     //this is not correct as it could delete the wrong product
-    async deleteProductByName(nombreProd){
-        try {
-            await apiClient.delete(`/product/${nombreProd}`)
-        } catch (error) {
-            throw "Error: " + error.response.data.message
-        }
-    },
-    //not implemented in backend
     async getProductById(idProduct){
         try {
-            await apiClient.get(`/product/${id}`)
+            const response = await apiClient.get(`/product/${idProduct}`)
+            return response.data
         } catch (error) {
-            throw "Error: " + error.response.data.message
+            throw   error.response.message
+        }
+    },
+    async searchProductByName(name){
+        try {
+            const response = await apiClient.get(`/product/search-name/${name}`)
+            return response.data
+        } catch (error) {
+            throw   error.response.message
+        }
+    },
+    async searchProductByWord(word){
+        try {
+            const response = await apiClient.get(`/product/search/${word}`)
+            return response.data
+        } catch (error) {
+            throw   error.response.message
         }
     }
+
+
 }
