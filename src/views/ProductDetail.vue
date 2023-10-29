@@ -98,7 +98,7 @@
 </template>
 
 <script>
-import productService from "../service/productService.js";
+import service from "../service/productService.js";
 export default {
   data() {
     return {
@@ -112,13 +112,12 @@ export default {
 
     try {
       // Llama al servicio para obtener los detalles del producto y las recomendaciones.
-      const response = await productService.detailProduct(productId, userId);
-      this.product = response.product;
-      this.recommendations = response.recommendations;
-      console.log("Hola");
-      console.log(this.product);
-      console.log(this.recommendations);
-
+      const response = await service.detailProduct(productId, userId);
+      console.log(response)
+      this.product = response.producto;
+      this.recommendations = response.recomendaciones;
+      console.log(this.product)
+      console.log(this.recommendations)
     } catch (error) {
       console.error("Error al obtener los detalles del producto", error);
     }
