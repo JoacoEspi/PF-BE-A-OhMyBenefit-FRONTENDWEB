@@ -32,6 +32,11 @@
               <a class="nav-link" href="#!">Registrarse</a>
             </RouterLink>
             </li>
+            <li class="nav-item">
+              <RouterLink to="{ name: 'product-detail', params: { id: product.id, idUsuario: user.id } }">
+               Detalle
+              </RouterLink>
+            </li>
           </ul>
         </div>
       </div>

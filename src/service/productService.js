@@ -1,6 +1,6 @@
 import apiClient from "./apiClient.js";
 
-export default {
+export default{
     async createProduct(producto){
         try {
             await apiClient.post("/product/create", producto)
@@ -61,7 +61,15 @@ export default {
         } catch (error) {
             throw   error.response.message
         }
-    }
+    },
+    async detailProduct(id, idUsuario) {
+        try {
+          const response = await apiClient.get(`/product/${id}/${idUsuario}`);
+          return response.data
+        } catch (error) {
+            throw   error.response.message
+        }
+      }
 
 
 }
