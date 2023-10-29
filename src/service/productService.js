@@ -24,6 +24,13 @@ export default{
             throw error.response.message;
         }
     },
+    async createProduct(elemento){
+        try {
+            await apiClient.post("/product/", elemento)
+        } catch (error) {
+            throw error.response.message
+        }
+    },
     async deleteProductById(idProducto){
         try {
             await apiClient.delete(`/product/${idProducto}`);
