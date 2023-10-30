@@ -73,15 +73,5 @@ export default{
                 throw error;
             }
         }
-    },
-    async detailProduct(id, idUsuario) {
-        try {
-          const response = await apiClient.get(`/product/${id}/${idUsuario}`);
-          return response.data
-        } catch (error) {
-            throw   error.response.message
-        }
-      }
-
-
+    }
 }
