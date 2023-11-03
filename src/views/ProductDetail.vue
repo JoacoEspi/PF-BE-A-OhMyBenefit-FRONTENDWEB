@@ -57,7 +57,8 @@
                           <button class="btn btn-primary" @click="getDireccion" :disabled="clickeado">Enviar</button>
                         </div>
                         <div class="card">
-                          <div class="container-table" v-if="supermarketList.length > 0">
+                          <div class="container-table" v-if="supermarketList.length > 0 && clickeado==true">
+                            
                             <h3>Estos son los supermercados más cercanos</h3>
                             <button class="btn btn-danger" @click="reset">Resetar ubicacion</button>
                             <table class="table">
@@ -78,6 +79,10 @@
                                 </tr>
                               </tbody>
                             </table>
+                          </div>
+                          <div v-else-if="supermarketList.length == 0 && clickeado==true">
+                            <h4>Mmm, no parece haber supermercados que tengan el producto en tu area. Chequea la direccion ingresada o intenta nuevamente con otra direccion</h4>
+                            <button class="btn btn-danger" @click="reset">Resetar ubicacion</button>
                           </div>
                         </div>
                       </div>
@@ -178,7 +183,7 @@ export default {
     },
     getDireccion() {
       this.clickeado = true;
-      this.direccion = `${this.calle} ${this.altura} ${this.codigoPostal}`;
+      this.direccion = `${this.calle} ${this.altura} + ", CP "+ ${this.codigoPostal}`;
 
       // You can choose to send data here or in another function
       this.sendData();
