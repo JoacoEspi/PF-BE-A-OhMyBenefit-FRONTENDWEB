@@ -46,12 +46,12 @@
                           </div>
                           <div class="form-group">
                             <label for="altura">Altura</label>
-                            <input type="text" class="form-control" v-model="altura" id="altura"
+                            <input type="number" class="form-control" v-model="altura" id="altura"
                               placeholder="Ingrese la altura de su dirección" :disabled="clickeado">
                           </div>
                           <div class="form-group">
                             <label for="codigoPostal">Código Postal</label>
-                            <input type="text" class="form-control" v-model="codigoPostal" id="codigoPostal"
+                            <input type="number" class="form-control" v-model="codigoPostal" id="codigoPostal"
                               placeholder="Ingrese el código postal de su dirección" :disabled="clickeado">
                           </div>
                           <button class="btn btn-primary" @click="getDireccion" :disabled="clickeado">Enviar</button>
