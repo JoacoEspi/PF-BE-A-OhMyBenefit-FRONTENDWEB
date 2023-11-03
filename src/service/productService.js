@@ -73,5 +73,17 @@ export default{
                 throw error;
             }
         }
+    },
+    async geolocation(dataToSend){
+        try{
+            const response = await apiClient.post(`/product/geolocation`,dataToSend);
+            return response.data;
+        }catch(error){
+            if (error.response && error.response.message) {
+                throw error.response.message;
+            } else {
+                throw error;
+            }
+        }
     }
 }
