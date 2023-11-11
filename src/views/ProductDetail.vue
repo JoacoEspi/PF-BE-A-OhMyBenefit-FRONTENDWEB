@@ -233,14 +233,8 @@ export default {
       );
     },
     async redirectToDetailPage(productId, userId) {
-      console.log("Redirección a la página de detalle iniciada.");
-      console.log("Product ID:", productId);
-      console.log("User ID:", userId);
-
       try {
-        console.log("Antes del service")
         const response = await service.detailProduct(productId, userId);
-        console.log(" Despues del Service")
         this.product = response.producto;
         this.recommendations = response.recomendaciones;
 
