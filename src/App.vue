@@ -19,17 +19,17 @@
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
             <li class="nav-item">
               <RouterLink to="/">
-              <a class="nav-link active" aria-current="page" href="#!">Home</a>
+                <a v-if="!userLoggedIn" class="nav-link active" aria-current="page" href="#!">Home</a>
             </RouterLink>
             </li>
             <li class="nav-item">
               <RouterLink to="/about">
-              <a class="nav-link" href="#!">Sobre Nosotros</a>
+                <a v-if="!userLoggedIn" class="nav-link" href="#!">Sobre Nosotros</a>
             </RouterLink>
             </li>
             <li class="nav-item">
-              <RouterLink to="/register">
-              <a class="nav-link" href="#!">Registrarse</a>
+              <RouterLink to="/user/registry">
+                <a v-if="!userLoggedIn" class="nav-link" href="#!">Registrarse</a>
             </RouterLink>
             </li>
           </ul>
@@ -42,7 +42,14 @@
 </template>
 
 
-<script setup>
+<script>
+export default {
+  data() {
+    return {
+      userLoggedIn: false, 
+    };
+  },
+};
 </script>
 
 

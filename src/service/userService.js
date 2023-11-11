@@ -17,12 +17,13 @@ export default{
         }
     },
     async registry(user){
-        try{
-          await apiClient.post("/user/registry", user)
-        } catch(error){
-            throw "Error: " + error.response.message
+        try {
+            await apiClient.post("/user/registry", user);
+        } catch (error) {
+            throw "Error: " + error.message; // Cambio Rosa - Manejo de error
         }
-    },
+    }
+    ,
     async forgetPassword(elemento){
         try {
             await apiClient.post("/user/forget-password", elemento)
