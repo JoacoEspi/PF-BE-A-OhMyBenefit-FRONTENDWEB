@@ -80,7 +80,7 @@ export default {
 
       try {
         const response = await service.forgetPassword(elemento)
-        this.$router.push({name:"recover-password"})
+        this.$router.push({name:"login"})
 
       } catch (error) {
         console.error('Error sending data to the server:', error);

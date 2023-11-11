@@ -172,7 +172,7 @@ export default {
         alert("Usuario creado exitosamente");
 
         // Realiza la redirección a la vista "home" después de crear el usuario
-        this.$router.push({ name: "home" }); // Asegúrate de ajustar el nombre de la ruta según tu configuración
+        this.$router.push({ name: "login" }); // Asegúrate de ajustar el nombre de la ruta según tu configuración
       } catch (error) {
         console.error("Error en la creación del usuario", error);
         alert("Error al crear el usuario");
