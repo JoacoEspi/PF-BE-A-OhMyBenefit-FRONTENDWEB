@@ -3,7 +3,7 @@ import apiClient from "./apiClient.js";
 export default{
     async login(user){
         try {
-            const response = await apiClient.get("/user/login", user);
+            const response = await apiClient.post("/user/login", user);
             return response.data;
         } catch (error) {
             throw  error.response.message

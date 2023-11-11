@@ -22,8 +22,6 @@
                 $ {{ product.precio }}
               </h4>
               <div id="modal-structure">
-                <!-- <button @click="openModal">Ver Comercios</button>
-                <LocationsModal v-if="isModalVisible" @close="closeModal" /> -->
                 <div>
                   <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">Ver Comercios</button>
                   <div class="modal fade" id="myModal">
@@ -35,7 +33,7 @@
                         </div>
                         <div class="modal-body">
                           <h3>Utilice la ubicación de su dispositivo</h3>
-                          <button class="btn btn-info" style="align-self: center;" @click="getLocation"
+                          <button class="btn btn-primary" style="align-self: center;" @click="getLocation"
                             :disabled="clickeado">Obtener Ubicación</button>
                           <hr>
                           <h3>O ingrese una dirección para utilizar en la búsqueda</h3>
@@ -51,14 +49,16 @@
                           </div>
                           <div class="form-group">
                             <label for="codigoPostal">Código Postal</label>
+                            <div id="cpHelp" class="form-text">Utilice el codigo postal de 4 digitos</div>
                             <input type="number" class="form-control" v-model="codigoPostal" id="codigoPostal"
-                              placeholder="Ingrese el código postal de su dirección" :disabled="clickeado">
+                              placeholder="Ingrese el código postal de su dirección" :disabled="clickeado"
+                              aria-describedby="cpHelp">
                           </div>
                           <button class="btn btn-primary" @click="getDireccion" :disabled="clickeado">Enviar</button>
                         </div>
                         <div class="card">
-                          <div class="container-table" v-if="supermarketList.length > 0 && clickeado==true">
-                            
+                          <div class="container-table" v-if="supermarketList.length > 0 && clickeado == true">
+
                             <h3>Estos son los supermercados más cercanos</h3>
                             <button class="btn btn-danger" @click="reset">Resetar ubicacion</button>
                             <table class="table">
@@ -80,8 +80,9 @@
                               </tbody>
                             </table>
                           </div>
-                          <div v-else-if="supermarketList.length == 0 && clickeado==true">
-                            <h4>Mmm, no parece haber supermercados que tengan el producto en tu area. Chequea la direccion ingresada o intenta nuevamente con otra direccion</h4>
+                          <div v-else-if="supermarketList.length == 0 && clickeado == true">
+                            <h4>Mmm, no parece haber supermercados que tengan el producto en tu area. Chequea la direccion
+                              ingresada o intenta nuevamente con otra direccion</h4>
                             <button class="btn btn-danger" @click="reset">Resetar ubicacion</button>
                           </div>
                         </div>
@@ -183,8 +184,8 @@ export default {
     },
     getDireccion() {
       this.clickeado = true;
-      this.direccion = `${this.calle} ${this.altura} + ", CP "+ ${this.codigoPostal}`;
 
+      this.direccion = `${this.calle} ${this.altura} + ", CP "+ ${this.codigoPostal}`;
       // You can choose to send data here or in another function
       this.sendData();
     },
@@ -211,6 +212,7 @@ export default {
 
       } catch (error) {
         console.error('Error sending data to the server:', error);
+        this.mostrarError()
       }
 
     },
@@ -254,13 +256,59 @@ export default {
       }
       console.log(productDetails);
     },
-
-
+    mostrarError() {
+      this.warningMessage = "Hubo un error al iniciar sesion. Por favor revise que los campos contengan la informacion correcta"
+    },
+    closeMsg() {
+      this.warningMessage = ''
+    }
   },
 };
 </script>
 
 <style scoped>
+.btn-primary {
+  text-align: center;
+  background-color: #e1386e;
+  color: #fdfff8;
+  border: none;
+  padding: 10px 20px;
+  margin-top: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 112px;
+  box-shadow: 5px 5px rgba(0, 0, 0, 1);
+  transition: transform 0.2s;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.btn-primary:hover {
+  background-color: #e1386e;
+  color: #fdfff8;
+}
+
+.btn-primary:active {
+  transform: translateY(2px);
+  background-color: #820646 !important;
+  box-shadow: none;
+  color: #fdfff8 !important;
+}
+
+.modal-content {
+  color: #01ac93;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background-color: #fdfff8;
+  margin-top: 20px;
+}
+
+input {
+  padding: 10px 20px;
+  margin-top: 18px;
+  margin-bottom: 18px;
+}
+
 .calibri-font {
   font-family: "Calibri", sans-serif;
   font-size: 24px;
