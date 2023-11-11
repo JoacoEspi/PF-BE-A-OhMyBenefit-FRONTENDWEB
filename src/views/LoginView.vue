@@ -65,11 +65,9 @@ export default {
     async sendData() {
       try {
         console.log(this.user)
-        // Send the data to your backend server
         const response = await service.login(this.user);
-        // Handle the response if needed
         console.log('Response from the server:', response);
-        this.$router.push('/home')
+        this.$router.push({name: "home-login"})
 
       } catch (error) {
         console.error('Error sending data to the server:', error);

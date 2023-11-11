@@ -19,11 +19,12 @@
         <div class="form-group">
           <label for="preguntas">Seleccione su pregunta de seguridad</label>
           <div id="preguntasHelp" class="form-text">La pregunta debe ser la que seleccionó al <br> registrarse</div>
-          <select id="preguntas" v-model="pregunta" class="form-control" aria-describedby="preguntasHelp" required>
-            <option value="" disabled>Elija su pregunta</option>
-            <option value="option1">Option 1</option>
-            <option value="option2">Option 2</option>
-            <option value="option3">Option 3</option>
+          <select class="form-control" id="securityQuestion" v-model="pregunta" aria-describedby="preguntasHelp">
+            <option value="" hidden>Elija su pregunta</option>
+            <option value="Nombre de Mascota">Nombre de Mascota</option>
+            <option value="Postre Favorito">Postre Favorito</option>
+            <option value="Color Favorito">Color Favorito</option>
+            <option value="Apellido de Abuelo">Apellido de Abuelo</option>
           </select>
         </div>
         <div class="form-group">
@@ -69,17 +70,17 @@ export default {
       this.seguridad.pregunta = this.pregunta
       this.seguridad.respuesta = this.respuesta
 
-      var data = {
-        email: this.mail,
+      var elemento = {
+        mail: this.mail,
         nuevaContrasenia: this.nuevaContrasenia,
         seguridad: this.seguridad
       }
 
-      console.log(data)
+      console.log(elemento)
 
       try {
-        const response = await service.forgetPassword(data)
-        this.$router.push('/login')
+        const response = await service.forgetPassword(elemento)
+        this.$router.push({name:"recover-password"})
 
       } catch (error) {
         console.error('Error sending data to the server:', error);
