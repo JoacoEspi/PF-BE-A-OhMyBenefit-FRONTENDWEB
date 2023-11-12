@@ -1,168 +1,118 @@
-<!-- <script>
-export default {
-  data() {
-    return {
-      
-    }
-  }
-}
-</script>
-
 <template>
-
-
-<div class="container">
-  <header>
-    <nav>
-
-    </nav>
-  </header>
-  <h1> Login</h1>
-  <img class="logo" src="../assets/images/LogoOMB-sin-fondo.png">
-  <div id="log-in">
-  <br/>
-    <div class="login-input">
-      <div class="email-title">
-        EMAIL
-      </div> 
-      <input type="text" class="email-input">
-      <div class="password-title">
-        CONTRASEÑA
-      </div> 
-      <input type="password" class="password-input">
+  <div class="container">
+    <div class="warning-container">
+      <div v-if="warningMessage" class="warning-message">
+        <br>
+        {{ warningMessage }}
+        <br>
+        <p> </p>
+        <button class="btn-warning" @click="closeMsg">x</button>
+      </div>
     </div>
-  <div class="login-options">
-    <div class="password-restore">
-      <a  href="https://play.vuejs.org/#eNp9VOFO2zAQfpVT9gOGmhZaqFjaVWIITezHNgGbNCl/3OSSGBLbs51ShvpQe4a92M52AmWr+BHF9n3+7r678z1GZ0oNVy1GSTQ3mebKgkHbqkUqeKOktvAIGgvYQKFlA3sE3UtFKuajgCYcbSw2qmYWaTfP+QqymhnzPo0yKSzjAnUagbEPNdKZxbWNWc1LkUCGwqKewZJld6WWrcjjTNZSJ/CmyIuiOJ2lEXECvGC13Na4xdhfwaPJ6RT7K3SpOlpcYdYq1AxsOx/R/tniYtPM4J/fzFvA+xmRo+BRLS5FqdG4q5BJrVGCYsT0s0VQLebMUGaMZcsaM9QBtUXpUkg0XKjWPoXudzE2jNckwD4oF3+/7fU0TJdcxEtprWwSODpU6xlxO5Gdxj4rSz3qFi1hadH7MUipDIdEvLgQK840nMucl3I+CgZXrE7ufLRVQdr6SGg59KmGR+ejpjrGFfKysgkcDk9mqdgQYsuTh+0oZV8XF19Q0RfX4aXOkVBCCpzB6ACusJErBFshdKoCBA5GDq9YnnNRhrTA2OeGbp3leW+CQmowimVuzYXh+Qu2QFNQqWLDfyERTTuOa7Qe6GzgbB02a7VxQpTkoV0Je14xUWJnAkutEYxAHiqKX/soGBWEZ3euRYAphdQ+Iutpg6xYs5y3hsI4GlMcwbCOTcVyeZ/ACYl0H+hyyfbH7wbgvuPxW4/0KgrW8Pohgb1rLCXCt8u9AdywSjZsAB9R4Ir+31HnTNDCMGFig5oXnoDalRJkuaTH6NcUdUPVHZv/y5uwzPIV+ir/+0p3F/50fDg9nj47cuSdH9drP/ZJcRCyLdl3gvdO/rcejHfcN+DEFd4d3PPcVrQ/6Q92NIgno4nVdXU0iKyht1rwcnhrpKDZ57ndJGkUr1F/US4lJo2S0PvOxupa3n/yZ1a3OOjPswqzux3nt2btztLoK00J1Ct6tE82Sy8cbTBfXH+mibhlbGTeuvn2ivEKjaxbF2OAfaCsU9hbOB/tpZ/glIwbc7G2SJXuRLlAHXLj8WlEU/38FenP4U6GE3+PMhpt/gKjWBoD">He olvidado mi contraseña</a>
-      <br>
-    </div>
-      <button class="send-button"> INICIAR SESION</button> 
-    </div>
-  </div>
-  
-</div>
-  
-</template>
-
-<style scoped>
-.container {
-  color: #e1386e;
-  display: flex;
-  align-items: center;
-  height: 100vh;
-  flex-direction: column; 
-  background-color: #fdfff8;
-}
-
-h1{
-    padding-top: 20px;
-    font-weight: bold;
-}
-.logo{
-    height: 200px;
-    width: 200px;
-    padding-top: 20px;
-}
-.login-input{
-  
-  color: #01ac93;
-}
-.password{
-  margin-bottom: 5px;
-}
-
-.password-restore{
-  font-size: 12px;
-  margin-top: 15px;
-  margin-bottom: 15px;
-  text-align: left;
-}
-
-.password-title, .email-title{
-  margin: 20px 0px 10px;
-  font-weight: bold;
-}
-.login-input input{
-  height: 50px;
-  width: 260px;
-  padding: 10px 20px;
-  color:#e1386e;
-}
-.login-options{
-  text-align: center;
-}
-.send-button{
-  background-color: #e1386e;
-  color:#fdfff8;
-  border: none; /* Remove the button border */
-  padding: 10px 20px; /* Add padding for spacing inside the button */
-  font-size: 16px; /* Set the font size */
-  cursor: pointer; /* Change cursor to pointer on hover for a clickable appearance */
-  border-radius: 112px; /* Add rounded corners */
-  box-shadow: 5px 5px  rgba(0, 0, 0, 1);
-  transition: transform 0.2s;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  
-}
-.send-button:active{
-  transform: translateY(2px);
-  background-color: #820646;
-  box-shadow: none;
-}
-</style> -->
-<template>
-    <div class= "container">
     <h1>Login</h1>
     <img src="../assets/images/LogoOMB-sin-fondo.png">
     <form @submit.prevent="login">
       <div class="login-input">
         <div class="form-group">
-            <label for="email">EMAIL</label>
-            <input v-model="email" type="text" class="form-control" id="email" required />
+          <label for="email">EMAIL</label>
+          <input id="mail" v-model="mail" type="text" class="form-control" required />
         </div>
-      
+
         <div class="form-group">
-            <label for="password">CONTRASEÑA</label>
-            <input v-model="password" type="password" class="form-control" id="password" required/>
+          <label for="contrasenia">CONTRASEÑA</label>
+          <input id="contrasenia" v-model="contrasenia" type="password" class="form-control" required />
         </div>
       </div>
-      <!-- Other form elements -->
-      <RouterLink to="/recover/email">
-        <a class="nav-link" href="#" >He olvidado mi contraseña</a>
+      <RouterLink to="/recover-password">
+        <a class="nav-link" href="#">He olvidado mi contraseña</a>
+      </RouterLink>
+      <RouterLink to="/register">
+        <a class="nav-link" href="#">Aun no tienes cuenta? Registrate</a>
       </RouterLink>
       <br>
       <div class="login-options">
-        <button type="submit" class="btn login-btn">INICIAR SESIÓN</button>  
+        <button type="submit" class="btn login-btn" @click="login">INICIAR SESIÓN</button>
       </div>
-      
+
     </form>
-    </div>
-  </template>
+  </div>
+</template>
   
+
+<script>
+
+import service from '../service/userService'
+
+export default {
+  data() {
+    return {
+      mail: "",
+      contrasenia: "",
+      user: {
+        mail: "",
+        contrasenia: ""
+      },
+      warningMessage:""
+    };
+  },
+  methods: {
+    login() {
+      this.user.mail = this.mail
+      this.user.contrasenia = this.contrasenia
+
+      this.sendData()
+    },
+    async sendData() {
+      try {
+        console.log(this.user)
+        const response = await service.login(this.user);
+        console.log('Response from the server:', response);
+        this.$router.push({name: "home-login"})
+
+      } catch (error) {
+        console.error('Error sending data to the server:', error);
+        this.mostrarError()
+      }
+
+      
+    },
+    mostrarError() {
+      this.warningMessage = "Hubo un error al iniciar sesion. Por favor revise que los campos contengan la informacion correcta"
+    },
+    closeMsg() {
+      this.warningMessage = ''
+    }
+  },
+};
+</script>
+
 <style scoped>
 .container {
   color: #e1386e;
   display: flex;
   align-items: center;
   height: 100vh;
-  flex-direction: column; 
+  flex-direction: column;
   background-color: #fdfff8;
   margin-top: 20px;
 }
-img{
-    height: 100px;
-    width:100px;
+
+img {
+  height: 100px;
+  width: 100px;
 }
 
-h1{
-    padding-top: 30px;
-    padding:20px;
-    font-weight: bold;
+h1 {
+  padding-top: 30px;
+  padding: 20px;
+  font-weight: bold;
 }
-.login-input{
+
+.login-input {
   color: #01ac93;
 }
-.form-control{
+
+.form-control {
   margin-bottom: 5px;
 }
 
@@ -172,54 +122,80 @@ a {
   margin-bottom: 15px;
   text-align: left;
 }
-.login-input input{
+
+.login-input input {
   height: 50px;
   width: 260px;
   padding: 10px 20px;
-  color:#e1386e;
+  color: #e1386e;
   margin-top: 18px;
   margin-bottom: 18px;
 }
-.login-options{
+
+.login-options {
   text-align: center;
 }
-.login-btn{
+
+.login-btn {
   background-color: #e1386e;
-  color:#fdfff8;
-  border: none; /* Remove the button border */
-  padding: 10px 20px; /* Add padding for spacing inside the button */
+  color: #fdfff8;
+  border: none;
+  /* Remove the button border */
+  padding: 10px 20px;
+  /* Add padding for spacing inside the button */
   margin-top: 20px;
-  font-size: 16px; /* Set the font size */
-  cursor: pointer; /* Change cursor to pointer on hover for a clickable appearance */
-  border-radius: 112px; /* Add rounded corners */
-  box-shadow: 5px 5px  rgba(0, 0, 0, 1);
+  font-size: 16px;
+  /* Set the font size */
+  cursor: pointer;
+  /* Change cursor to pointer on hover for a clickable appearance */
+  border-radius: 112px;
+  /* Add rounded corners */
+  box-shadow: 5px 5px rgba(0, 0, 0, 1);
   transition: transform 0.2s;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-.login-btn:hover{
-    background-color: #e1386e;
-    color:#fdfff8;
+
+.login-btn:hover {
+  background-color: #e1386e;
+  color: #fdfff8;
 }
-.login-btn:active{
+
+.login-btn:active {
   transform: translateY(2px);
   background-color: #820646 !important;
   box-shadow: none;
-  color:#fdfff8 !important;
+  color: #fdfff8 !important;
+}
+.warning-message {
+  background-color: #e1386e;
+  /* Warning message background color */
+  color: #fdfff8;
+  /* Warning message text color */
+  padding-right: 20px;
+  padding-left: 20px;
+  /* Add padding for better visibility */
+  margin-bottom: 10px;
+  /* Add margin to separate from other content */
+  border: 1px solid #fdcb6e;
+  /* Border color */
+  border-radius: 5px;
+  /* Border radius for rounded corners */
+  border-radius: 20px;
+}
+
+.btn-warning {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-weight: bolder;
+  color: #fdfff8;
+}
+
+.warning-container {
+  position: relative;
 }
 </style>
-  <script>
-  export default {
-    data() {
-      return {
-        email: "",
-        password: "",
-      };
-    },
-    methods: {
-      login() {
-        // Handle form submission here
-      },
-    },
-  };
-  </script>
   
