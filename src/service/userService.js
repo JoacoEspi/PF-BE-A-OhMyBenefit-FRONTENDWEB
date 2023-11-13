@@ -61,5 +61,23 @@ export default{
         } catch (error) {
             throw "Error: " + error.response.message
         }
+    },
+    async analyzeSentiment(comentario) {
+        try {
+            const response = await apiClient.post("/user/analyze-sentiment", comentario);
+            return response.data;
+        } catch (error) {
+            console.error("Error en analyzeSentiment:", error);
+            throw error; // Asegúrate de arrojar el error para que se maneje en el componente
+        }
+    }
+    ,
+    async commentsListAll() {
+      try {
+        const response = await apiClient.get("/user/analyze-sentiment/commentsListAll");
+        return response.data;
+      } catch (error) {
+        throw "Error: " + error.response.message;
+      }
     }
 }

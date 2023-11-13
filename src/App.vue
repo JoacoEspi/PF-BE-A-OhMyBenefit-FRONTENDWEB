@@ -33,6 +33,11 @@
             </RouterLink>
             </li>
             <li class="nav-item">
+              <RouterLink to="/user/analyzeSentiment">
+                <a v-if="!userLoggedIn" class="nav-link" href="#!">Comentarios</a>
+            </RouterLink>
+            </li>
+            <li class="nav-item">
               <RouterLink to="/login">
               <a class="nav-link" href="#!">Iniciar Sesion</a>
             </RouterLink>
