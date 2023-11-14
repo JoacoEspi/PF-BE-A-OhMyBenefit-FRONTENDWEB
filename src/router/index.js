@@ -4,8 +4,9 @@ import RegisterView from '../views/RegisterView.vue'
 import AboutView from '../views/AboutView.vue'
 import ProductDetail from '../views/ProductDetail.vue'
 import HomeUsuario from '../views/HomeUsuario.vue'
-import LoginView from "../views/LoginView.vue";
-import PasswordResetView from "../views/PasswordResetView.vue";
+import LoginView from "../views/LoginView.vue"
+import PasswordResetView from "../views/PasswordResetView.vue"
+import Comments from "../views/Comments.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,6 +45,11 @@ const router = createRouter({
       path: '/home', 
       name: 'home-login', //Hace referencia al Home del Usuario Logueado
       component: HomeUsuario,
+    },
+    {
+      path: '/user/analyzeSentiment', 
+      name: 'comments', 
+      component: Comments,
     }
   ]
 })
