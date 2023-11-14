@@ -26,7 +26,7 @@
       <RouterLink to="/recover-password">
         <a class="nav-link" href="#">He olvidado mi contraseña</a>
       </RouterLink>
-      <RouterLink to="/register">
+      <RouterLink to="/user/registry">
         <a class="nav-link" href="#">Aun no tienes cuenta? Registrate</a>
       </RouterLink>
       <br>
@@ -42,6 +42,7 @@
 <script>
 
 import service from '../service/userService'
+import { useLoginStore } from '../stores/userStore';
 
 export default {
   data() {
@@ -67,6 +68,7 @@ export default {
         console.log(this.user)
         const response = await service.login(this.user);
         console.log('Response from the server:', response);
+        ///cargarlo al store
         this.$router.push({name: "home-login"})
 
       } catch (error) {

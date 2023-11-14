@@ -16,9 +16,9 @@ export default{
             throw error.response.message;
         }
     },
-    async listAllProducts(){
+    async listAllProducts(query){
         try {
-            const response = await apiClient.get("/product/list-all");
+            const response = await apiClient.get("/product/list-all",{ params: query });
             return response.data;
         } catch (error) {
             throw error.response.message;
