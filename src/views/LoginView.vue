@@ -42,7 +42,7 @@
 <script>
 
 import service from '../service/userService'
-import { useLoginStore } from '../stores/userStore';
+import {useUserStore} from "../stores/userStore"
 
 export default {
   data() {
@@ -53,30 +53,43 @@ export default {
         mail: "",
         contrasenia: ""
       },
-      warningMessage:""
+      warningMessage: ""
     };
   },
   methods: {
     login() {
       this.user.mail = this.mail
       this.user.contrasenia = this.contrasenia
-
       this.sendData()
     },
     async sendData() {
       try {
-        console.log(this.user)
         const response = await service.login(this.user);
         console.log('Response from the server:', response);
+        const token = response.data.token
+        useUserStore().setToken(token)
+
+        const userId = await this.getId(this.mail)
+        ///hasta aca anda
+
+        const usuarioStore = {
+          mail:this.mail,
+          id: userId
+        }
+
+        useUserStore().login(usuarioStore);
+        console.log(useUserStore().getState());
         ///cargarlo al store
-        this.$router.push({name: "home-login"})
+        this.$router.push({ name: "home-login" })
 
       } catch (error) {
         console.error('Error sending data to the server:', error);
         this.mostrarError()
       }
-
-      
+    },
+    async getId(mail) {
+      const idUsuario = await service.getUserIdByEmail(this.mail)
+      return idUsuario
     },
     mostrarError() {
       this.warningMessage = "Hubo un error al iniciar sesion. Por favor revise que los campos contengan la informacion correcta"
@@ -168,6 +181,7 @@ a {
   box-shadow: none;
   color: #fdfff8 !important;
 }
+
 .warning-message {
   background-color: #e1386e;
   /* Warning message background color */

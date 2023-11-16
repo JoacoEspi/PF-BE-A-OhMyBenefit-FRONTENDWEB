@@ -1,7 +1,58 @@
 <template>
   <div class="container">
     <div class="container-title">
-      
+      <div class="input-group">
+        <input type="text" v-model="wordSearch" class="searchbar" placeholder="Ingrese el nombre del producto a buscar">
+        <button type="submit" class="btn" @click="buscarProducto">Buscar</button>
+      </div>
+      <div v-if="busqueda.length > 0" class="list-products">
+        <h3>Resultados de busqueda</h3>
+        <button class="clear-button" @click="borrarBusqueda">X Borrar busqueda</button>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Imagen</th>
+              <th>Nombre</th>
+              <th>Precio</th>
+              <th>Comercio</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(product, index) in busqueda" :key="index">
+              <td>
+                <div class="image-wrapper-result">
+                  <img :src="product.imageUrl" alt="Imagen del producto">
+                </div>
+              </td>
+              <td>
+                <h5 class="card-title">{{ product.nombre }}</h5>
+              </td>
+              <td>
+                <p class="card-text">${{ product.precio }}</p>
+              </td>
+              <td>
+                <div v-if="product.idComercio == 1">
+                  <p class="card-text">Coto</p>
+                </div>
+                <div v-else-if="product.idComercio == 2">
+                  <p class="card-text">Carrefour</p>
+                </div>
+                <div v-else-if="product.idComercio == 3">
+                  <p class="card-text">Dia</p>
+                </div>
+              </td>
+              <td>
+                <div class="item-button-wrapper">
+                  <button class="btn" @click="verDetalle(product._id)">Ver Detalle</button>
+                  <br>
+                  <button class="btn" @click="agregarProducto(product._id)">Agregar</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       <h1>Encontra tu producto al mejor precio</h1>
       <div class="carousel-title">
         <h4>Productos destacados</h4>
@@ -20,6 +71,7 @@
                 <p class="card-text">${{ product.precio }}</p>
 
                 <a href="#" class="btn" @click="verDetalle(product._id)">Ver detalles</a>
+                <a href="#" class="btn" @click="agregarProducto(product._id)">Agregar</a>
               </div>
             </div>
           </div>
@@ -36,16 +88,12 @@
       </button>
     </div>
     <hr>
-    <!-- <div class="card-comment">
-      <h5>Dejanos tu comentario</h5>
-      <input type="text" class="input-comment">
-      <a class="btn" href="#">Enviar</a>
-    </div> -->
   </div>
 </template>
 
 <script>
 import service from '../service/productService'
+import { useUserStore } from '../stores/userStore';
 
 export default {
   data() {
@@ -53,12 +101,16 @@ export default {
       slides: [],
       perPage: '',
       page: '',
-      listaPrueba: []
+      listaPrueba: [],
+      product: '',
+      wordSearch: '',
+      busqueda: [],
+      errorMsg: '',
+      agregadoMessage: ''
     }
   },
   async mounted() {
     try {
-      // Simulate receiving an array list with 6 products
       this.page = Math.floor(Math.random() * 10) + 1;
       this.perPage = 12;
 
@@ -66,70 +118,6 @@ export default {
         page: this.page,
         perPage: this.perPage
       }
-      // const listaProductos = [
-      //   {
-      //     nombre: "Producto 1",
-      //     precio: 20.99,
-      //     imageUrl: "https://ejemplo.com/imagen1.jpg",
-      //   },
-      //   {
-      //     nombre: "Producto 2",
-      //     precio: 15.49,
-      //     imageUrl: "https://ejemplo.com/imagen2.jpg",
-      //   },
-      //   {
-      //     nombre: "Producto 3",
-      //     precio: 30.00,
-      //     imageUrl: "https://ejemplo.com/imagen3.jpg",
-      //   },
-      //   {
-      //     nombre: "Producto 4",
-      //     precio: 25.99,
-      //     imageUrl: "https://ejemplo.com/imagen4.jpg",
-      //   },
-      //   {
-      //     nombre: "Producto 5",
-      //     precio: 18.75,
-      //     imageUrl: "https://ejemplo.com/imagen5.jpg",
-      //   },
-      //   {
-      //     nombre: "Producto 6",
-      //     precio: 22.50,
-      //     imageUrl: "https://ejemplo.com/imagen6.jpg",
-      //   },
-      //   {
-      //     nombre: "Producto 7",
-      //     precio: 19.95,
-      //     imageUrl: "https://ejemplo.com/imagen7.jpg",
-      //   },
-      //   {
-      //     nombre: "Producto 8",
-      //     precio: 35.99,
-      //     imageUrl: "https://ejemplo.com/imagen8.jpg",
-      //   },
-      //   {
-      //     nombre: "Producto 9",
-      //     precio: 28.00,
-      //     imageUrl: "https://ejemplo.com/imagen9.jpg",
-      //   },
-      //   {
-      //     nombre: "Producto 10",
-      //     precio: 16.49,
-      //     imageUrl: "https://ejemplo.com/imagen10.jpg",
-      //   },
-      //   {
-      //     nombre: "Producto 11",
-      //     precio: 16.49,
-      //     imageUrl: "https://ejemplo.com/imagen10.jpg",
-      //   },
-      //   {
-      //     nombre: "Producto 12",
-      //     precio: 16.49,
-      //     imageUrl: "https://ejemplo.com/imagen10.jpg",
-      //   }
-      //   // Puedes seguir agregando más productos según sea necesario
-      // ];
-
       //Check if the response has a 'docs' property
       const response = await service.listAllProducts(query);
       if (response.docs) {
@@ -150,8 +138,57 @@ export default {
 
   },
   methods: {
-    async verDetalle(idProducto) {
-      const response = await service.detailProduct(idProducto,/**idUsuario */)
+    verDetalle(idProducto) {
+      ///faltaria el store para obtener idUsuario
+      const idUsuario = useUserStore().getId()
+      this.$router.push(`/product/${idProducto}/${idUsuario}`,);
+    },
+    async agregarProducto(idProducto) {
+      try {
+
+        const response = await service.getProductById(idProducto);
+        console.log(response)
+        const cantidad = 1
+        const precioUnitario = parseFloat(response.precio.replace(',', '.'));
+        const item = {
+          producto: response,
+          cantidad: cantidad,
+          precioUnitario: precioUnitario,
+          total: cantidad * precioUnitario
+        }
+        useUserStore().addProduct(item)
+        this.agregadoMessage = "Agregado al presupuesto!"
+      } catch (error) {
+
+      }
+    },
+    async buscarProducto() {
+      try {
+        if (this.wordSearch) {
+          const response = await service.searchProductByWord(this.wordSearch)
+          this.busqueda = response
+          console.log(this.busqueda)
+
+          if (Array.isArray(response)) {
+            // Handle simple array
+            this.busqueda = response.slice(0, 20) // Save only the first 20 products
+          } else if (response && response.totalProducts) {
+            // Handle object with multiple arrays
+            const allProducts = response.products.flat(); // Flatten the arrays
+            this.busqueda = allProducts.slice(0, 20) // Save only the first 20 products
+          }
+        } else {
+          throw new Error("La palabra a buscar esta vacia")
+        }
+      } catch (error) {
+        this.error = ""
+      }
+    },
+    borrarBusqueda() {
+      this.busqueda = ''
+    },
+    verPresupuesto() {
+      this.$router.push({ name: 'budget' })
     }
   }
 }
@@ -193,7 +230,6 @@ h4 {
 }
 
 .input-comment {
-
   height: 300px;
   width: 500px;
 }
@@ -213,6 +249,7 @@ h4 {
   color: #fdfff8;
   border: none;
   padding: 10px 20px;
+  margin-left: 2%;
   margin-top: 20px;
   font-size: 16px;
   cursor: pointer;
@@ -266,7 +303,33 @@ h4 {
   max-height: 100%;
 }
 
-.input-group-append btn {
-  bottom: 5%;
+.image-wrapper-result img {
+  height: 200px;
+  width: 200px;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.input-group {
+  margin-bottom: 30px;
+  margin-top: 30px;
+}
+
+.input-group btn {
+  height: 40px;
+}
+
+.searchbar {
+  padding: 1%;
+  width: 80%;
+}
+
+.clear-button {
+  border-color: #e1386e;
+  background-color: transparent;
+  color: #e1386e;
+  border-radius: 30px;
+  font-size: small;
+  border-width: 3px;
 }
 </style>

@@ -7,6 +7,7 @@ import HomeUsuario from '../views/HomeUsuario.vue'
 import LoginView from "../views/LoginView.vue"
 import PasswordResetView from "../views/PasswordResetView.vue"
 import Comments from "../views/Comments.vue"
+import BudgetView from "../views/BudgetView.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -50,6 +51,11 @@ const router = createRouter({
       path: '/user/analyzeSentiment', 
       name: 'comments', 
       component: Comments,
+    },
+    {
+      path: '/user/budget',
+      name: 'budget',
+      component:BudgetView,
     }
   ]
 })

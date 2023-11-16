@@ -24,6 +24,7 @@
               <div id="modal-structure">
                 <div>
                   <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">Ver Comercios</button>
+                  <button class="btn btn-primary" @click="agregarProducto">Agregar producto</button>
                   <div class="modal fade" id="myModal">
                     <div class="modal-dialog">
                       <div class="modal-content">
@@ -115,7 +116,7 @@
                 <p class="card-text">
                   Precio: $ {{ recommendation.values.precio }}
                 </p>
-                <button type="button" class="btn btn-outline-primary" @click="selectProductAndRedirect(recommendation)">
+                <button type="button" class="btn btn-primary" @click="selectProductAndRedirect(recommendation)">
                   Ver Detalle
                 </button>
               </div>
@@ -129,11 +130,13 @@
 
 <script>
 import service from "../service/productService.js";
+import { useUserStore } from '../stores/userStore';
 
 export default {
   data() {
     return {
       product: {},
+      cantidad: 1,
       recommendations: [],
       isModalVisible: false,
       calle: '',
@@ -169,6 +172,33 @@ export default {
     closeModal() {
       this.isModalVisible = false;
     },
+    async agregarProducto() {
+      try {
+        
+        const cantidad = 1
+        const precioUnitario = parseFloat(this.product.precio.replace(',', '.'));
+
+        console.log('Parsed precioUnitario:', precioUnitario);
+
+        const total = cantidad * precioUnitario;
+
+        console.log('Calculated total:', total);
+
+        const item = {
+          producto: this.product,
+          cantidad: cantidad,
+          precioUnitario: precioUnitario,
+          total: total,
+        };
+
+        console.log(item);
+        useUserStore().addProduct(item);
+        console.log(useUserStore().getState())
+      } catch (error) {
+        console.error('Error adding product:', error);
+      }
+    }
+    ,
     getLocation() {
       this.clickeado = true;
       if ("geolocation" in navigator) {
@@ -248,7 +278,6 @@ export default {
       } catch (error) {
         console.error("Error al obtener los detalles del producto", error);
       }
-      console.log(productDetails);
     },
     mostrarError() {
       this.warningMessage = "Hubo un error al iniciar sesion. Por favor revise que los campos contengan la informacion correcta"
@@ -268,6 +297,7 @@ export default {
   border: none;
   padding: 10px 20px;
   margin-top: 20px;
+  margin-right: 20px;
   font-size: 16px;
   cursor: pointer;
   border-radius: 112px;
