@@ -1,5 +1,10 @@
 <template>
   <div>
+    <div v-if="mostrarMsg" class="message">
+      <div class="alert alert-success" role="alert">
+        <p>{{ agregadoMessage }}</p>
+      </div>
+    </div>
     <div class="row mt-4">
       <div class="col-md-6 text-center mb-4">
         <img :src="product.imageUrl" :alt="product.nombre" width="300" height="300" />
@@ -20,6 +25,12 @@
               <h4 class="mb-4 d-flex flex-column align-items-center calibri-font">
                 $ {{ product.precio }}
               </h4>
+              <div class="cantidad-wrapper d-flex align-items-center">
+                <p class="mr-2 mb-0">Cantidad:</p>
+                <button @click="mas">+</button>
+                <p class="mr-2 mb-0">{{ this.cantidad }}</p>
+                <button @click="menos">-</button>
+              </div>
               <div id="modal-structure">
                 <div>
                   <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">Ver Comercios</button>
@@ -52,11 +63,16 @@
                             <div id="cpHelp" class="form-text">Utilice el codigo postal de 4 digitos</div>
                             <input type="number" class="form-control" v-model="codigoPostal" id="codigoPostal"
                               placeholder="Ingrese el código postal de su dirección" :disabled="clickeado"
-                              aria-describedby="cpHelp">
+                              aria-describedby="cpHelp" min="0" max="9999">
                           </div>
                           <button class="btn btn-primary" @click="getDireccion" :disabled="clickeado">Enviar</button>
                         </div>
-                        <div class="card">
+                        <div v-if="isLoading" class="message">
+                          <div class="alert alert-info" role="alert">
+                            <p>Buscando locales...</p>
+                          </div>
+                        </div>
+                        <div class="card" v-else>
                           <div class="container-table" v-if="supermarketList.length > 0 && clickeado == true">
 
                             <h3>Estos son los supermercados más cercanos</h3>
@@ -144,7 +160,11 @@ export default {
       longitud: '',
       codComercio: '',
       clickeado: false,
-      supermarketList: []
+      supermarketList: [],
+      agregadoMessage: '',
+      mostrarMsg: false,
+      isLoading: false,
+      cantidad: 1
     };
   },
   async mounted() {
@@ -171,8 +191,8 @@ export default {
     },
     async agregarProducto() {
       try {
-        
-        const cantidad = 1
+
+        const cantidad = this.cantidad
         const precioUnitario = parseFloat(this.product.precio.replace(',', '.'));
 
         console.log('Parsed precioUnitario:', precioUnitario);
@@ -191,6 +211,7 @@ export default {
         console.log(item);
         useUserStore().addProduct(item);
         console.log(useUserStore().getState())
+        this.mostrarAgregado()
       } catch (error) {
         console.error('Error adding product:', error);
         alert("Error al agregar producto")
@@ -198,12 +219,10 @@ export default {
     }
     ,
     getLocation() {
-      this.clickeado = true;
       if ("geolocation" in navigator) {
         navigator.geolocation.getCurrentPosition((position) => {
           this.latitud = position.coords.latitude;
           this.longitud = position.coords.longitude;
-          // You can choose to send data here or in another function
           this.sendData();
         });
       } else {
@@ -211,18 +230,25 @@ export default {
       }
     },
     getDireccion() {
-      this.clickeado = true;
-
       this.direccion = `${this.calle} ${this.altura} + ", CP "+ ${this.codigoPostal}`;
-      // You can choose to send data here or in another function
       this.sendData();
     },
     async sendData() {
-
+      this.isLoading = true
+      this.clickeado = true;
       console.log(this.latitud, this.longitud, this.direccion, this.codComercio);
 
+      if (!this.latitud && !this.longitud) {
+        if (!this.altura || !this.calle || !this.codigoPostal) {
+          this.isLoading = false;
+          alert("Por favor, ingrese coordenadas válidas y dirección.");
+          return;
+        }
+
+      }
+
       const dataToSend = {
-        latitud: this.latitud, // Use this.latitud and this.longitud
+        latitud: this.latitud,
         longitud: this.longitud,
         codigoComercio: this.codComercio,
         direccion: this.direccion,
@@ -238,6 +264,8 @@ export default {
         console.error('Error sending data to the server:', error);
         alert("Error enviando ubicacion")
         this.reset()
+      } finally {
+        this.isLoading = false;
       }
 
     },
@@ -256,6 +284,7 @@ export default {
         recommendation.id,
         this.$route.params.idUsuario
       );
+      this.cantidad = 1
     },
     async redirectToDetailPage(productId, userId) {
       try {
@@ -276,6 +305,23 @@ export default {
         alert(msg)
       }
     },
+    mostrarAgregado() {
+      this.mostrarMsg = true
+      this.agregadoMessage = "Agregado al presupuesto!"
+
+      setTimeout(() => {
+        this.mostrarMsg = false;
+        this.agregadoMessage = '';
+      }, 3000)
+    },
+    mas(){
+      this.cantidad++
+    },
+    menos(){
+      if(this.cantidad>1){
+        this.cantidad--
+      }
+    }
   },
 };
 </script>
@@ -309,7 +355,8 @@ export default {
   color: #fdfff8 !important;
 }
 
-.modal-content {
+.modal-content,
+.container-table {
   color: #01ac93;
   display: flex;
   align-items: center;
@@ -334,5 +381,13 @@ input {
   font-family: "Calibri", sans-serif;
   font-size: 15px;
   font-weight: bold;
+}
+
+.cantidad-wrapper button{
+  margin: 5px 5px 5px 5px;
+  border: none;
+  background-color: #01ac93;
+  color: #fdfff8;
+  border-radius: 20px;
 }
 </style>

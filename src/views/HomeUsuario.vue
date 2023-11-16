@@ -6,6 +6,11 @@
         <button type="submit" class="btn" @click="buscarProducto">Buscar</button>
       </div>
       <p v-if="errorMsg">{{ errorMsg }}</p>
+      <div v-if="mostrarMsg" class="message">
+        <div class="alert alert-success" role="alert">
+          <p>{{ agregadoMessage }}</p>
+        </div>
+      </div>
       <div v-if="busqueda.length > 0" class="list-products">
         <h3>Resultados de busqueda</h3>
         <button class="clear-button" @click="borrarBusqueda">X Borrar busqueda</button>
@@ -45,6 +50,7 @@
               </td>
               <td>
                 <div class="item-button-wrapper">
+
                   <button class="btn" @click="verDetalle(product._id)">Ver Detalle</button>
                   <br>
                   <button class="btn" @click="agregarProducto(product._id)">Agregar</button>
@@ -70,7 +76,6 @@
               <div class="card-body">
                 <h5 class="card-title">{{ product.nombre }}</h5>
                 <p class="card-text">${{ product.precio }}</p>
-
                 <a href="#" class="btn" @click="verDetalle(product._id)">Ver detalles</a>
                 <a href="#" class="btn" @click="agregarProducto(product._id)">Agregar</a>
               </div>
@@ -88,7 +93,6 @@
         <span class="visually-hidden">Next</span>
       </button>
     </div>
-    <hr>
   </div>
 </template>
 
@@ -107,7 +111,9 @@ export default {
       wordSearch: '',
       busqueda: [],
       errorMsg: '',
-      agregadoMessage: ''
+      agregadoMessage: '',
+      mostrarMsg: false,
+      cantidad: 1
     }
   },
   async mounted() {
@@ -140,7 +146,6 @@ export default {
   },
   methods: {
     verDetalle(idProducto) {
-      ///faltaria el store para obtener idUsuario
       const idUsuario = useUserStore().getId()
       this.$router.push(`/product/${idProducto}/${idUsuario}`,);
     },
@@ -149,7 +154,7 @@ export default {
 
         const response = await service.getProductById(idProducto);
         console.log(response)
-        const cantidad = 1
+        const cantidad = this.cantidad
         const precioUnitario = parseFloat(response.precio.replace(',', '.'));
         const item = {
           producto: response,
@@ -158,7 +163,7 @@ export default {
           total: cantidad * precioUnitario
         }
         useUserStore().addProduct(item)
-        this.agregadoMessage = "Agregado al presupuesto!"
+        this.mostrarAgregado()
       } catch (error) {
         alert("Hubo un error al agregar al presupuesto")
       }
@@ -170,7 +175,7 @@ export default {
           this.busqueda = response
           console.log(this.busqueda)
 
-          if(response.success==false){
+          if (response.success == false) {
             throw new Error(response.message)
           }
 
@@ -194,7 +199,16 @@ export default {
     },
     verPresupuesto() {
       this.$router.push({ name: 'budget' })
-    }
+    },
+    mostrarAgregado() {
+      this.mostrarMsg = true
+      this.agregadoMessage = "Agregado al presupuesto!"
+
+      setTimeout(() => {
+        this.mostrarMsg = false;
+        this.agregadoMessage = '';
+      }, 3000)
+    },
   }
 }
 </script>

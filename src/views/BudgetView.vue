@@ -9,11 +9,10 @@
                             <thead class="thead">
                                 <tr>
                                     <th>Producto</th>
-                                    <th>Categoria</th>
                                     <th>Cantidad</th>
                                     <th>Precio Unitaro</th>
                                     <th>Precio total</th>
-                                    <th>Supermercado</th>
+                                    <th>Super</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -25,7 +24,6 @@
                                             <span>{{ item.producto.nombre }}</span>
                                         </div>
                                     </td>
-                                    <td>{{ item.producto.categorias.join(', ') }}</td>
                                     <td>{{ item.cantidad }}</td>
                                     <td>{{ `$${item.producto.precio}` }}</td>
                                     <td>{{ `$${item.total.toFixed(2)}` }}</td>
@@ -46,7 +44,6 @@
                     </div>
                 </table>
             </div>
-
             <!-- Right Side - Total Divided by comercioID -->
             <div class="col-md-4">
                 <div>
@@ -68,6 +65,8 @@
                             <h3>El total es de:</h3>
                             <p>$ {{ presupuesto.importeTotal }}</p>
                             <button class="btn-calculate" @click="sendData">Guardar presupuesto</button>
+                            <button class="btn-clear" @click="limpiarPresupuesto">Limpiar presupuesto</button>
+
                         </div>
                     </ul>
                 </div>
@@ -148,12 +147,13 @@ export default {
             try {
                 console.log("se va a mandar esto:")
                 console.log(this.presupuesto)
-                if(this.presupuesto.items.length == 0){
+                if (this.presupuesto.items.length == 0) {
                     throw new Error("El presupuesto está vacio")
                 }
                 const response = await service.estimateCartPrice(this.presupuesto)
                 alert("Se ha guardado el presupuesto!")
                 useUserStore().clearPresupuesto()
+                this.getHistorialPresuspuesto()
             } catch (error) {
                 alert("Hubo un error al agregar su presupuesto: " + error.message)
             }
@@ -185,7 +185,17 @@ export default {
                 this.presupuestoHistorial = await service.getAllCartsByUserId(userId)
 
             } catch (error) {
+                alert("Hubo un error obteniendo el historial")
             }
+        },
+        limpiarPresupuesto() {
+            useUserStore().clearPresupuesto();
+            this.presupuesto = {
+                items: [],
+                importeTotal: 0,
+                mail: ''
+            };
+            this.items = [];
         }
     },
     computed: {
@@ -216,6 +226,22 @@ export default {
     border: none;
     padding: 10px 20px;
     margin-top: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 112px;
+    box-shadow: 5px 5px rgba(0, 0, 0, 1);
+    transition: transform 0.2s;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+.btn-clear {
+    border-color: #e1386e;
+    color: #e1386e;
+    background-color: none;
+    padding: 10px 20px;
+    margin-top: 20px;
+    margin-left: 5px;
     font-size: 16px;
     cursor: pointer;
     border-radius: 112px;

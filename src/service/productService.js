@@ -87,7 +87,15 @@ export default{
   },
   async geolocation(dataToSend) {
     try {
-      const response = await apiClient.post(`/product/geolocation`, dataToSend);
+      const token = useUserStore().getToken();
+      if (!token) {
+        throw "Error: No se ha encontrado un token de autenticación.";
+      }
+      const response = await apiClient.post(`/product/geolocation`, dataToSend,{
+        headers: {
+            "auth-token": token,
+          }
+      });
       return response.data;
     } catch (error) {
       if (error.response && error.response.message) {
