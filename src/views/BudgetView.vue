@@ -6,14 +6,14 @@
                 <table class="table table-bordered table-striped">
                     <div>
                         <table class="table table-bordered table-striped">
-                            <thead class="thead-dark">
+                            <thead class="thead">
                                 <tr>
-                                    <th>Product</th>
-                                    <th>Categories</th>
-                                    <th>Quantity</th>
-                                    <th>Unit Price</th>
-                                    <th>Total Price</th>
-                                    <th>Supermarket</th>
+                                    <th>Producto</th>
+                                    <th>Categoria</th>
+                                    <th>Cantidad</th>
+                                    <th>Precio Unitaro</th>
+                                    <th>Precio total</th>
+                                    <th>Supermercado</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -94,8 +94,8 @@
                                             <p>{{ item.producto.nombre }} - Cantidad: {{ item.cantidad }}</p>
                                         </div>
                                         <div class="mt-3" v-if="presupuesto.importeTotal !== undefined">
-                                            <p>Importe Total del Presupuesto: ${{ presupuesto.importeTotal.toFixed(2) }}
-                                            </p>
+                                            <h3>Importe Total del Presupuesto: ${{ presupuesto.importeTotal.toFixed(2) }}
+                                            </h3>
                                         </div>
                                     </div>
                                 </div>
@@ -148,12 +148,14 @@ export default {
             try {
                 console.log("se va a mandar esto:")
                 console.log(this.presupuesto)
+                if(this.presupuesto.items.length == 0){
+                    throw new Error("El presupuesto está vacio")
+                }
                 const response = await service.estimateCartPrice(this.presupuesto)
                 alert("Se ha guardado el presupuesto!")
                 useUserStore().clearPresupuesto()
             } catch (error) {
-                console.log("Hubo un error")
-                console.log(error.message)
+                alert("Hubo un error al agregar su presupuesto: " + error.message)
             }
         },
         obtenerTotal() {
@@ -208,26 +210,6 @@ export default {
     margin-top: 2%;
 }
 
-.card {
-    margin-top: 2%;
-}
-
-.quantity-container button {
-    border: none;
-    background-color: #01ac93;
-    color: #fdfff8;
-    margin-left: 20px;
-    margin-right: 20px;
-    border-radius: 50px;
-}
-
-.quantity-container button:active {
-    transform: translateY(2px);
-    background-color: rgb(8, 103, 89) !important;
-    box-shadow: none;
-    color: #fdfff8 !important;
-}
-
 .btn-calculate {
     background-color: #e1386e;
     color: #fdfff8;
@@ -252,19 +234,5 @@ export default {
     background-color: #820646 !important;
     box-shadow: none;
     color: #fdfff8 !important;
-}
-
-.card-body h3 {
-    margin-top: 2%;
-}
-
-.result p {
-    color: #01ac93;
-    font-size: 36px;
-    font-weight: bold;
-}
-
-.result {
-    margin-top: 2%;
 }
 </style>

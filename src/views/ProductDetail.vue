@@ -4,7 +4,6 @@
       <div class="col-md-6 text-center mb-4">
         <img :src="product.imageUrl" :alt="product.nombre" width="300" height="300" />
       </div>
-
       <div class="col-md-6 mb-4">
         <div class="product-details">
           <div class="card">
@@ -68,7 +67,6 @@
                                   <th>Supermercado</th>
                                   <th>Direccion</th>
                                   <th>Distancia (km)</th>
-                                  <!-- Add more table headers as needed -->
                                 </tr>
                               </thead>
                               <tbody>
@@ -76,7 +74,6 @@
                                   <td>{{ supermarket.nombre }}</td>
                                   <td>{{ supermarket.direccion }}</td>
                                   <td>{{ supermarket.distancia.toFixed(2) }}</td>
-                                  <!-- Add more table cells for other data -->
                                 </tr>
                               </tbody>
                             </table>
@@ -162,10 +159,10 @@ export default {
       console.log(this.codComercio)
     } catch (error) {
       console.error("Error al obtener los detalles del producto", error);
+      alert("Error al obtener detalles del producto")
     }
   },
   methods: {
-    ////***MODAL FUNCTIONS ****//////
     showModal() {
       this.isModalVisible = true;
     },
@@ -196,6 +193,7 @@ export default {
         console.log(useUserStore().getState())
       } catch (error) {
         console.error('Error adding product:', error);
+        alert("Error al agregar producto")
       }
     }
     ,
@@ -232,17 +230,14 @@ export default {
       };
 
       try {
-        // Send the data to your backend server
         const response = await service.geolocation(dataToSend);
-
-        // Handle the response if needed
         console.log('Response from the server:', response);
-
         this.supermarketList = response;
 
       } catch (error) {
         console.error('Error sending data to the server:', error);
-        this.mostrarError()
+        alert("Error enviando ubicacion")
+        this.reset()
       }
 
     },
@@ -276,15 +271,11 @@ export default {
           },
         });
       } catch (error) {
-        console.error("Error al obtener los detalles del producto", error);
+        const msg = "Error al obtener los detalles del producto"
+        console.error(msg, error);
+        alert(msg)
       }
     },
-    mostrarError() {
-      this.warningMessage = "Hubo un error al iniciar sesion. Por favor revise que los campos contengan la informacion correcta"
-    },
-    closeMsg() {
-      this.warningMessage = ''
-    }
   },
 };
 </script>

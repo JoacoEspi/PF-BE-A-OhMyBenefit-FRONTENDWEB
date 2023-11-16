@@ -1,14 +1,5 @@
 <template>
   <div class="container">
-    <div class="warning-container">
-      <div v-if="warningMessage" class="warning-message">
-        <br>
-        {{ warningMessage }}
-        <br>
-        <p> </p>
-        <button class="btn-warning" @click="closeMsg">x</button>
-      </div>
-    </div>
     <h1>Login</h1>
     <img src="../assets/images/LogoOMB-sin-fondo.png">
     <form @submit.prevent="login">
@@ -70,7 +61,6 @@ export default {
         useUserStore().setToken(token)
 
         const userId = await this.getId(this.mail)
-        ///hasta aca anda
 
         const usuarioStore = {
           mail:this.mail,
@@ -79,16 +69,15 @@ export default {
 
         useUserStore().login(usuarioStore);
         console.log(useUserStore().getState());
-        ///cargarlo al store
         this.$router.push({ name: "home-login" })
 
       } catch (error) {
         console.error('Error sending data to the server:', error);
-        this.mostrarError()
+        alert("Hubo un error al iniciar sesion. Por favor chequee sus datos y vuelva a intentar")
       }
     },
     async getId(mail) {
-      const idUsuario = await service.getUserIdByEmail(this.mail)
+      const idUsuario = await service.getUserIdByEmail(mail)
       return idUsuario
     },
     mostrarError() {
@@ -155,16 +144,11 @@ a {
   background-color: #e1386e;
   color: #fdfff8;
   border: none;
-  /* Remove the button border */
   padding: 10px 20px;
-  /* Add padding for spacing inside the button */
   margin-top: 20px;
   font-size: 16px;
-  /* Set the font size */
   cursor: pointer;
-  /* Change cursor to pointer on hover for a clickable appearance */
   border-radius: 112px;
-  /* Add rounded corners */
   box-shadow: 5px 5px rgba(0, 0, 0, 1);
   transition: transform 0.2s;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -180,38 +164,6 @@ a {
   background-color: #820646 !important;
   box-shadow: none;
   color: #fdfff8 !important;
-}
-
-.warning-message {
-  background-color: #e1386e;
-  /* Warning message background color */
-  color: #fdfff8;
-  /* Warning message text color */
-  padding-right: 20px;
-  padding-left: 20px;
-  /* Add padding for better visibility */
-  margin-bottom: 10px;
-  /* Add margin to separate from other content */
-  border: 1px solid #fdcb6e;
-  /* Border color */
-  border-radius: 5px;
-  /* Border radius for rounded corners */
-  border-radius: 20px;
-}
-
-.btn-warning {
-  position: absolute;
-  top: 5px;
-  right: 10px;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  font-weight: bolder;
-  color: #fdfff8;
-}
-
-.warning-container {
-  position: relative;
 }
 </style>
   

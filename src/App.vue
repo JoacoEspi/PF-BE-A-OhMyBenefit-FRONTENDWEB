@@ -25,19 +25,19 @@
 
             <li class="nav-item">
               <RouterLink to="/about">
-                <a v-if="!userLoggedIn" class="nav-link" href="#!">Sobre Nosotros</a>
+                <a v-if="!userLoggedIn" class="nav-link active" href="#!">Sobre Nosotros</a>
               </RouterLink>
             </li>
 
             <li class="nav-item">
               <RouterLink to="/user/registry">
-                <a v-if="!userLoggedIn" class="nav-link" href="#!">Registrarse</a>
+                <a v-if="!userLoggedIn" class="nav-link active" href="#!">Registrarse</a>
               </RouterLink>
             </li>
 
             <li class="nav-item">
               <RouterLink to="/user/analyzeSentiment">
-                <a v-if="userLoggedIn" class="nav-link" href="#!">Comentarios</a>
+                <a v-if="userLoggedIn" class="nav-link active" href="#!">Comentarios</a>
               </RouterLink>
             </li>
 
@@ -54,7 +54,7 @@
             </li>
 
             <li class="nav-item">
-              <a v-if="userLoggedIn" class="nav-link" @click="confirmLogout()">Cerrar Sesion</a>
+              <a v-if="userLoggedIn" class="nav-link active" @click="confirmLogout()">Cerrar Sesion</a>
             </li>
           </ul>
         </div>
@@ -87,7 +87,7 @@ export default {
   methods: {
     confirmLogout() {
       // Display a confirmation dialog
-      const shouldLogout = confirm("Are you sure you want to logout?");
+      const shouldLogout = confirm("Estas seguro que deseas cerrar sesion?");
 
       // If the user clicks "OK" in the confirmation dialog, proceed with the logout
       if (shouldLogout) {

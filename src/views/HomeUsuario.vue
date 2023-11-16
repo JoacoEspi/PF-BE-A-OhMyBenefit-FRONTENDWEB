@@ -5,6 +5,7 @@
         <input type="text" v-model="wordSearch" class="searchbar" placeholder="Ingrese el nombre del producto a buscar">
         <button type="submit" class="btn" @click="buscarProducto">Buscar</button>
       </div>
+      <p v-if="errorMsg">{{ errorMsg }}</p>
       <div v-if="busqueda.length > 0" class="list-products">
         <h3>Resultados de busqueda</h3>
         <button class="clear-button" @click="borrarBusqueda">X Borrar busqueda</button>
@@ -159,7 +160,7 @@ export default {
         useUserStore().addProduct(item)
         this.agregadoMessage = "Agregado al presupuesto!"
       } catch (error) {
-
+        alert("Hubo un error al agregar al presupuesto")
       }
     },
     async buscarProducto() {
@@ -168,6 +169,10 @@ export default {
           const response = await service.searchProductByWord(this.wordSearch)
           this.busqueda = response
           console.log(this.busqueda)
+
+          if(response.success==false){
+            throw new Error(response.message)
+          }
 
           if (Array.isArray(response)) {
             // Handle simple array
@@ -181,7 +186,7 @@ export default {
           throw new Error("La palabra a buscar esta vacia")
         }
       } catch (error) {
-        this.error = ""
+        this.errorMsg = "No se pudo encontrar el producto"
       }
     },
     borrarBusqueda() {
@@ -229,10 +234,6 @@ h4 {
   margin: 20px auto;
 }
 
-.input-comment {
-  height: 300px;
-  width: 500px;
-}
 
 .carousel-control-prev,
 .carousel-control-next {
