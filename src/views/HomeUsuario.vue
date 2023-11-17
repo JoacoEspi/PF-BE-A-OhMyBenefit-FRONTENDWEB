@@ -2,8 +2,8 @@
   <div class="container">
     <div class="container-title">
       <div class="input-group">
-        <input type="text" v-model="wordSearch" class="searchbar" placeholder="Ingrese el nombre del producto a buscar">
-        <button type="submit" class="btn" @click="buscarProducto">Buscar</button>
+        <input type="text" v-model="wordSearch" class="searchbar" placeholder="Ingrese el nombre del producto">
+        <button type="submit" class="btn-buscar" @click="buscarProducto">Buscar</button>
       </div>
       <p v-if="errorMsg">{{ errorMsg }}</p>
       <div v-if="mostrarMsg" class="message">
@@ -50,7 +50,6 @@
               </td>
               <td>
                 <div class="item-button-wrapper">
-
                   <button class="btn" @click="verDetalle(product._id)">Ver Detalle</button>
                   <br>
                   <button class="btn" @click="agregarProducto(product._id)">Agregar</button>
@@ -170,6 +169,7 @@ export default {
     },
     async buscarProducto() {
       try {
+        this.errorMsg = ''
         if (this.wordSearch) {
           const response = await service.searchProductByWord(this.wordSearch)
           this.busqueda = response
@@ -212,7 +212,6 @@ export default {
   }
 }
 </script>
-
 <style scoped>
 .container {
   background-color: #fdfff8;
@@ -226,6 +225,56 @@ export default {
   margin-bottom: 2%;
 }
 
+.list-products {
+  margin-top: 20px;
+}
+
+.table {
+  width: 100%;
+  margin-top: 10px;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+}
+
+.image-wrapper-result {
+  max-width: 100%;
+}
+
+@media screen and (max-width: 767px) {
+  .item-button-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .item-button-wrapper button {
+    margin-bottom: 10px;
+  }
+
+  th, td {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  td {
+    text-align: center;
+  }
+
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .searchbar {
+    width: 80%;
+    margin-bottom: 10px;
+  }
+}
 
 .card {
   border-radius: 5%;
@@ -248,7 +297,6 @@ h4 {
   margin: 20px auto;
 }
 
-
 .carousel-control-prev,
 .carousel-control-next {
   background-color: #01ac93;
@@ -259,6 +307,23 @@ h4 {
   transform: translateY(-50%);
 }
 
+.btn-buscar{
+  background-color: #01ac93;
+  color: #fdfff8;
+  border: none;
+  padding: 10px 20px;
+  box-shadow: 5px 5px rgba(0, 0, 0, 1);
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.btn-buscar:active {
+  transform: translateY(2px);
+  background-color: #055949 !important;
+  box-shadow: none;
+  color: #fdfff8 !important;
+}
 .btn {
   background-color: #e1386e;
   color: #fdfff8;
@@ -286,7 +351,7 @@ h4 {
   color: #fdfff8 !important;
 }
 
-@media screen and (min-width:567px) {
+@media screen and (min-width: 567px) {
   .cards-wrapper {
     display: flex;
   }
@@ -302,14 +367,17 @@ h4 {
     align-items: center;
     justify-content: center;
   }
+  
 }
 
-@media screen and (max-width:567px) {
+@media screen and (max-width: 567px) {
   .card:not(:first-child) {
     display: none;
   }
+  th {
+    display: none;
+  }
 }
-
 
 .image-wrapper img {
   height: 250px;
@@ -345,6 +413,5 @@ h4 {
   color: #e1386e;
   border-radius: 30px;
   font-size: small;
-  border-width: 3px;
 }
 </style>

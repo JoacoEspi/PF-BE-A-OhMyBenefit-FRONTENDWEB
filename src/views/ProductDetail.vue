@@ -27,9 +27,9 @@
               </h4>
               <div class="cantidad-wrapper d-flex align-items-center">
                 <p class="mr-2 mb-0">Cantidad:</p>
-                <button @click="mas">+</button>
-                <p class="mr-2 mb-0">{{ this.cantidad }}</p>
                 <button @click="menos">-</button>
+                <p class="mr-2 mb-0">{{ this.cantidad }}</p>
+                <button @click="mas">+</button>
               </div>
               <div id="modal-structure">
                 <div>

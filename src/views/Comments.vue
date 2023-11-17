@@ -30,9 +30,9 @@
         >
           <div class="ms-2 me-auto list-comments">
             <div class="fw-bold list-comments">{{ comment.comentario }}</div>
-            <div v-if="comment.score < 0" style="color: red" class="fw-bold list-comments"> Analisis: Negativo</div>
+            <div v-if="comment.score < 0" style="color: #e1386e" class="fw-bold list-comments"> Analisis: Negativo</div>
             <div v-else-if="comment.score === 0" style="color: orange" class="fw-bold list-comments">Analisis: Neutral</div>
-            <div v-else style="color: green" class="fw-bold list-comments">Analisis: Positivo</div>
+            <div v-else style="color: #01ac93" class="fw-bold list-comments">Analisis: Positivo</div>
           </div>
           <span class="badge bg-success rounded-pill list-comments">Score: {{ comment.score.toFixed(2) }}</span>
         </li>
