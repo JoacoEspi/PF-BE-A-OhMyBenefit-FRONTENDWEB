@@ -35,6 +35,7 @@
           <div class="form-group col-md-6 mb-3 mx-auto">
             <label for="securityQuestion">Pregunta de Seguridad</label>
             <select class="form-control" id="securityQuestion" v-model="seguridad.pregunta">
+              <option value="" hidden>Elija su pregunta</option>
               <option value="Nombre de Mascota">Nombre de Mascota</option>
               <option value="Postre Favorito">Postre Favorito</option>
               <option value="Color Favorito">Color Favorito</option>
@@ -47,7 +48,7 @@
           </div>
           <div class="form-group col-md-6 mb-3 mx-auto">
             <label for="inputPass1">Contraseña</label>
-            <div id="contraHelp" class="form-text">Debe incluir una mayuscula, un numero y un caracter especial</div>
+            <div id="contraHelp" class="form-text">Debe incluir una letra mayuscula, una minuscula, un numero y un caracter especial</div>
             <input type="password" class="form-control" id="inputPass1" aria-describedby="contraHelp" v-model="password1" @input="checkPasswordMatch" />
           </div>
           <div class="form-row">

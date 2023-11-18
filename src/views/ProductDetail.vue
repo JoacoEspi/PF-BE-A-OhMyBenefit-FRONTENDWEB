@@ -76,7 +76,7 @@
                           <div class="container-table" v-if="supermarketList.length > 0 && clickeado == true">
 
                             <h3>Estos son los supermercados más cercanos</h3>
-                            <button class="btn btn-danger" @click="reset">Resetar ubicacion</button>
+                            <button class="btn btn-danger" @click="reset">Resetear ubicacion</button>
                             <table class="table">
                               <thead>
                                 <tr>
@@ -97,7 +97,7 @@
                           <div v-else-if="supermarketList.length == 0 && clickeado == true">
                             <h4>Mmm, no parece haber supermercados que tengan el producto en tu area. Chequea la direccion
                               ingresada o intenta nuevamente con otra direccion</h4>
-                            <button class="btn btn-danger" @click="reset">Resetar ubicacion</button>
+                            <button class="btn btn-danger" @click="reset">Resetear ubicacion</button>
                           </div>
                         </div>
                       </div>
@@ -243,7 +243,7 @@ export default {
           this.isLoading = false;
           this.clickeado = false;
           alert("Por favor, ingrese una direccion valida o utilice su ubicacion.");
-          
+
           return;
         }
 
@@ -316,11 +316,11 @@ export default {
         this.agregadoMessage = '';
       }, 3000)
     },
-    mas(){
+    mas() {
       this.cantidad++
     },
-    menos(){
-      if(this.cantidad>1){
+    menos() {
+      if (this.cantidad > 1) {
         this.cantidad--
       }
     }
@@ -385,7 +385,7 @@ input {
   font-weight: bold;
 }
 
-.cantidad-wrapper button{
+.cantidad-wrapper button {
   margin: 5px 5px 5px 5px;
   border: none;
   background-color: #01ac93;

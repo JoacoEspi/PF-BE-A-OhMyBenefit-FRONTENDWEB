@@ -1,7 +1,6 @@
 <template>
     <div class="container-fluid">
         <div class="row">
-            <!-- Left Side - Product Details -->
             <div class="col-md-8">
                 <table class="table table-bordered table-striped">
                     <div>
@@ -44,10 +43,9 @@
                     </div>
                 </table>
             </div>
-            <!-- Right Side - Total Divided by comercioID -->
             <div class="col-md-4">
                 <div>
-                    <h3>Total by Supermarket</h3>
+                    <h3>Total por Supermercado</h3>
                     <ul class="list-group">
                         <li v-for="(total, comercioID) in getTotalByComercioID" :key="comercioID" class="list-group-item">
                             <div v-if="comercioID == 1">
@@ -66,7 +64,6 @@
                             <p>$ {{ presupuesto.importeTotal }}</p>
                             <button class="btn-calculate" @click="sendData">Guardar presupuesto</button>
                             <button class="btn-clear" @click="limpiarPresupuesto">Limpiar presupuesto</button>
-
                         </div>
                     </ul>
                 </div>
@@ -224,7 +221,9 @@ export default {
 .row {
     margin-top: 2%;
 }
-
+.container-fluid{
+    background-color: #fdfff8;
+}
 .btn-calculate {
     background-color: #e1386e;
     color: #fdfff8;

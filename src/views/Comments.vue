@@ -3,6 +3,7 @@
     <div class="center-container comment-input-container">
       <div class="card-comment">
         <h5 class="comment-input-container">Dejanos tu comentario</h5>
+        <h6>Tu opinion es muy importante para nosotros</h6>
         <div class="comment-input-container list-comments">
           <textarea
             v-model="nuevoComentario"
@@ -96,6 +97,7 @@ export default {
   align-items: center;
   justify-content: center;
   height: 40vh;
+  background-color: #fdfff8;
 }
 
 .card-comment {
