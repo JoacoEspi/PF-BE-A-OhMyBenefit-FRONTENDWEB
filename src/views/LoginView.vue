@@ -22,7 +22,7 @@
       </RouterLink>
       <br>
       <div class="login-options">
-        <button type="submit" class="btn login-btn" @click="login">INICIAR SESIÓN</button>
+        <button type="submit" class="btn login-btn">INICIAR SESIÓN</button>
       </div>
 
     </form>
