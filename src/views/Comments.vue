@@ -55,6 +55,11 @@ export default {
   methods: {
     async enviarComentario() {
       try {
+        
+        if(!this.nuevoComentario){
+          alert("El comentario está vacio")
+          return;
+        }
         const nuevoComentarioAnalizado = await service.analyzeSentiment({
           comentario: this.nuevoComentario,
         });
@@ -62,15 +67,17 @@ export default {
         this.comentarios.unshift(nuevoComentarioAnalizado); 
         // Muestra la alerta de agradecimiento
         alert("¡Gracias por tu comentario!");
-
         this.limpiarComentario();
+        
       } catch (error) {
         console.error("Error en enviarComentario:", error);
       }
-    },
-    limpiarComentario() {
+    }
+  },
+  computed:{
+    limpiarComentario(){
       this.nuevoComentario = "";
-    },
+    }
   },
   async mounted() {
     try {

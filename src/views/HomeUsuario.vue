@@ -154,7 +154,7 @@ export default {
         const response = await service.getProductById(idProducto);
         console.log(response)
         const cantidad = this.cantidad
-        const precioUnitario = parseFloat(response.precio.replace(',', '.'));
+        const precioUnitario = parseFloat(this.formatearPrecio(response.precio).replace(',', '.'));
         const item = {
           producto: response,
           cantidad: cantidad,
@@ -187,6 +187,13 @@ export default {
             const allProducts = response.products.flat(); // Flatten the arrays
             this.busqueda = allProducts.slice(0, 20) // Save only the first 20 products
           }
+          this.busqueda = this.busqueda
+            .map((product) => ({
+              ...product,
+              precio: this.formatearPrecio(product.precio),
+            }))
+            .sort((a, b) => parseFloat(a.precio) - parseFloat(b.precio));
+
         } else {
           throw new Error("La palabra a buscar esta vacia")
         }
@@ -196,6 +203,7 @@ export default {
     },
     borrarBusqueda() {
       this.busqueda = ''
+      this.errorMsg = ''
     },
     verPresupuesto() {
       this.$router.push({ name: 'budget' })
@@ -209,6 +217,20 @@ export default {
         this.agregadoMessage = '';
       }, 3000)
     },
+    formatearPrecio(precio) {
+      const numero = parseFloat(precio.replace('.', '').replace(',', '.'));
+
+      if (!isNaN(numero)) {
+        let precioFormateado = numero.toFixed(2).replace('.', ',');
+
+        if (numero > 9999.99) {
+          precioFormateado = (numero / 1000).toFixed(2).replace('.', ',');
+        }
+        return precioFormateado;
+      } else {
+        return precio;
+      }
+    }
   }
 }
 </script>
@@ -234,7 +256,8 @@ export default {
   margin-top: 10px;
 }
 
-th, td {
+th,
+td {
   padding: 8px;
   text-align: left;
 }
@@ -254,7 +277,8 @@ th, td {
     margin-bottom: 10px;
   }
 
-  th, td {
+  th,
+  td {
     display: block;
     width: 100%;
     box-sizing: border-box;
@@ -307,7 +331,7 @@ h4 {
   transform: translateY(-50%);
 }
 
-.btn-buscar{
+.btn-buscar {
   background-color: #01ac93;
   color: #fdfff8;
   border: none;
@@ -324,6 +348,7 @@ h4 {
   box-shadow: none;
   color: #fdfff8 !important;
 }
+
 .btn {
   background-color: #e1386e;
   color: #fdfff8;
@@ -367,13 +392,14 @@ h4 {
     align-items: center;
     justify-content: center;
   }
-  
+
 }
 
 @media screen and (max-width: 567px) {
   .card:not(:first-child) {
     display: none;
   }
+
   th {
     display: none;
   }

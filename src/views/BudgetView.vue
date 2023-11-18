@@ -76,7 +76,7 @@
                     <h2>Historial de presupuestos</h2>
                 </div>
                 <div v-if="presupuestoHistorial.length > 0">
-                    <div v-for="(presupuesto, index) in presupuestoHistorial" :key="index">
+                    <div v-for="(presupuesto, index) in presupuestoHistorial.slice(1)" :key="index">
                         <div class="accordion" id="presupuestoAccordion">
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="heading{{ index }}">
@@ -189,13 +189,18 @@ export default {
             }
         },
         limpiarPresupuesto() {
-            useUserStore().clearPresupuesto();
-            this.presupuesto = {
-                items: [],
-                importeTotal: 0,
-                mail: ''
-            };
-            this.items = [];
+            const borrar = confirm("Estas seguro que deseas limpiar tu presupuesto?");
+
+            if (borrar) {
+                useUserStore().clearPresupuesto();
+                this.presupuesto = {
+                    items: [],
+                    importeTotal: 0,
+                    mail: ''
+                };
+                this.items = [];
+            }
+
         }
     },
     computed: {

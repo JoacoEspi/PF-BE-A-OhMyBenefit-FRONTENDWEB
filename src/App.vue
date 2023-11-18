@@ -86,18 +86,15 @@ export default {
   },
   methods: {
     confirmLogout() {
-      // Display a confirmation dialog
       const shouldLogout = confirm("Estas seguro que deseas cerrar sesion?");
 
-      // If the user clicks "OK" in the confirmation dialog, proceed with the logout
       if (shouldLogout) {
-        // Perform logout logic here
         useUserStore().logout();
         console.log(useUserStore().getState())
         console.log("User logged out");
         this.$router.push('/')
       }
-      // If the user clicks "Cancel" in the confirmation dialog, do nothing
+     
     },
   },
   computed: {

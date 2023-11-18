@@ -47,7 +47,8 @@
           </div>
           <div class="form-group col-md-6 mb-3 mx-auto">
             <label for="inputPass1">Contraseña</label>
-            <input type="password" class="form-control" id="inputPass1" v-model="password1" @input="checkPasswordMatch" />
+            <div id="contraHelp" class="form-text">Debe incluir una mayuscula, un numero y un caracter especial</div>
+            <input type="password" class="form-control" id="inputPass1" aria-describedby="contraHelp" v-model="password1" @input="checkPasswordMatch" />
           </div>
           <div class="form-row">
             <div class="form-group col-md-6 mb-3 mx-auto">
@@ -67,9 +68,6 @@
       </div>
       <div class="col-md-3"></div>
     </div>
-
-
-
   </div>
 </template>
 
@@ -207,5 +205,9 @@ select {
   background-color: #820646 !important;
   box-shadow: none;
   color: #fdfff8 !important;
+}
+
+.mx-auto{
+  background-color: #fdfff8;
 }
 </style>

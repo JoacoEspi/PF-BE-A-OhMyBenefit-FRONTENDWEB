@@ -241,7 +241,9 @@ export default {
       if (!this.latitud && !this.longitud) {
         if (!this.altura || !this.calle || !this.codigoPostal) {
           this.isLoading = false;
-          alert("Por favor, ingrese coordenadas válidas y dirección.");
+          this.clickeado = false;
+          alert("Por favor, ingrese una direccion valida o utilice su ubicacion.");
+          
           return;
         }
 

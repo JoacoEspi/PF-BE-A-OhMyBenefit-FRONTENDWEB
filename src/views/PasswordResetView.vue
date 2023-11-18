@@ -86,6 +86,7 @@ export default {
 
       try {
         const response = await service.forgetPassword(elemento)
+        alert("Contraseña cambiada con exito")
         this.$router.push({ name: "login" })
 
       } catch (error) {
