@@ -4,7 +4,6 @@
       <div class="container px-5 my-5 px-5">
         <div class="text-center mb-5">
           <h2 class="fw-bolder">Sobre Nosotros</h2>
-          <p class="lead mb-0">Nuestra Historia</p>
         </div>
         <div class="row gx-5 justify-content-center">
           <div class="col-lg-6">
@@ -24,16 +23,15 @@
                       width="250"
                       height="250"
                     />
-
+                    <br>
                     <p class="mb-1">
-                      "TLorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua. Massa eget egestas purus viverra accumsan. Sed
-                      felis eget velit aliquet sagittis id. Eget nulla facilisi
-                      etiam dignissim diam quis enim lobortis. Sit amet
-                      consectetur adipiscing elit duis tristique sollicitudin
-                      nibh. Sed turpis tincidunt id aliquet risus feugiat in.
-                      Volutpat est velit egestas dui id ornare arcu odio"
+                      Oh My Benefits es una aplicación que le permite investigar
+                      los precios de productos segun marca y comercio,
+                      para poder obtener claridad y realizar compras de manera más informada.
+                    </p>
+                    <br>
+                    <p class="mb-1">
+                      Con solo una busqueda, podra buscar productos variados y hasta poder averiguar los comercios más cercanos donde conseguirlos
                     </p>
                     <div class="small text-muted">Buenos Aires, Argentina</div>
                   </div>

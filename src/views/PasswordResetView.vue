@@ -1,14 +1,5 @@
 <template>
   <div class="container">
-    <div class="warning-container">
-      <div v-if="warningMessage" class="warning-message">
-        <br>
-        {{ warningMessage }}
-        <br>
-        <p> </p>
-        <button class="btn-warning" @click="closeMsg">x</button>
-      </div>
-    </div>
     <h1>Restablecer contraseña</h1>
     <form @submit.prevent="submitForm">
       <div class="reset-pass-input">
@@ -32,13 +23,20 @@
           <input id="respuesta" v-model="respuesta" type="text" placeholder="Respuesta" class="form-control" required />
         </div>
         <div class="form-group">
-          <label for="nuevaContrasenia">Escriba su nueva contraseña</label>
+          <label for="nuevaContrasenia1">Escriba su nueva contraseña</label>
           <div id="contraHelp" class="form-text">Debe incluir una mayuscula, un numero y un <br> caracter especial</div>
-          <input id="nuevaContrasenia" v-model="nuevaContrasenia" placeholder="Contraseña nueva"
-            aria-describedby="contraHelp" type="password" class="form-control" required />
+          <input id="nuevaContrasenia1" v-model="nuevaContrasenia1" placeholder="Contraseña nueva"
+            aria-describedby="contraHelp" @input="checkPasswordMatch" type="password" class="form-control" required />
+        </div>
+        <div class="form-group">
+          <label for="nuevaContrasenia2">Escriba su nueva contraseña nuevamente</label>
+          <input id="nuevaContrasenia2" v-model="nuevaContrasenia2" placeholder="Contraseña nueva" @input="checkPasswordMatch" type="password"
+            class="form-control" required />
         </div>
       </div>
-
+      <div class="error-message text-center" v-if="passwordMismatch">
+            Las contraseñas no coinciden
+      </div>
       <!-- Submit Button -->
       <div class="submit-holder">
         <button type="submit" @click="sendData" class="btn submit-btn">Restablecer contraseña</button>
@@ -62,17 +60,25 @@ export default {
       },
       pregunta: '',
       respuesta: '',
-      nuevaContrasenia: ''
+      nuevaContrasenia1: '',
+      nuevaContrasenia2:'', 
+      contrasenia:'',
+      passwordMismatch: false
     };
   },
   methods: {
     async sendData() {
+      if (this.nuevaContrasenia1 !== this.nuevaContrasenia2) {
+        this.passwordMismatch = true;
+        alert("Las contraseñas no coinciden");
+        return; // No envíes el formulario si las contraseñas no coinciden
+      }
       this.seguridad.pregunta = this.pregunta
       this.seguridad.respuesta = this.respuesta
 
       var elemento = {
         mail: this.mail,
-        nuevaContrasenia: this.nuevaContrasenia,
+        nuevaContrasenia: this.contrasenia,
         seguridad: this.seguridad
       }
 
@@ -80,18 +86,22 @@ export default {
 
       try {
         const response = await service.forgetPassword(elemento)
-        this.$router.push({name:"login"})
+        alert("Contraseña cambiada con exito")
+        this.$router.push({ name: "login" })
 
       } catch (error) {
         console.error('Error sending data to the server:', error);
-        this.mostrarError()
+        alert("Hubo un error al cambiar su contraseña. Por favor chequee sus datos y vuelva a intentar")
       }
     },
-    mostrarError() {
-      this.warningMessage = "Hubo un error al cambiar su contraseña. Por favor revise que los campos contengan la informacion correcta"
-    },
-    closeMsg() {
-      this.warningMessage = ''
+    checkPasswordMatch() {
+      if (this.nuevaContrasenia1 !== this.nuevaContrasenia2) {
+        this.passwordMismatch = true;
+      } else {
+        this.passwordMismatch = false;
+        // Asigna la contrasena
+        this.contrasenia = this.nuevaContrasenia1;
+      }
     }
   },
 };
@@ -99,7 +109,6 @@ export default {
   
 
 <style scoped>
-/* Add your specific styles here */
 .container {
   color: #e1386e;
   display: flex;
@@ -163,36 +172,5 @@ label {
   color: #fdfff8 !important;
 }
 
-.warning-message {
-  background-color: #e1386e;
-  /* Warning message background color */
-  color: #fdfff8;
-  /* Warning message text color */
-  padding-right: 20px;
-  padding-left: 20px;
-  /* Add padding for better visibility */
-  margin-bottom: 10px;
-  /* Add margin to separate from other content */
-  border: 1px solid #fdcb6e;
-  /* Border color */
-  border-radius: 5px;
-  /* Border radius for rounded corners */
-  border-radius: 20px;
-}
-
-.btn-warning {
-  position: absolute;
-  top: 5px;
-  right: 10px;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  font-weight: bolder;
-  color: #fdfff8;
-}
-
-.warning-container {
-  position: relative;
-}
 </style>
   
